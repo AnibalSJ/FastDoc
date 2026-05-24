@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastDoc - Registro</title>
+  <style>
+    :root {
+      --primary: #A60321;
+      --light: #F2E9D8;
+      --dark: #8C5C32;
+      --accent: #D97B66;
+      --gold: #D9A577;
+      --surface: #fff6ed;
+      --text: #3d251b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(180deg, #fff8f2 0%, #f3e2d3 100%);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .register-shell {
+      width: min(620px, 100%);
+      background: rgba(255, 250, 244, 0.96);
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(166, 3, 33, 0.14);
+      box-shadow: 0 28px 80px rgba(0,0,0,0.1);
+    }
+
+    .header-panel {
+      padding: 36px 34px 28px;
+      background: linear-gradient(135deg, rgba(166, 3, 33, 0.16), rgba(217, 123, 102, 0.16));
+      color: var(--dark);
+    }
+
+    .header-panel h1 {
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      margin-bottom: 12px;
+    }
+
+    .header-panel p {
+      color: #5d4339;
+      font-size: 1rem;
+      max-width: 540px;
+    }
+
+    .form-panel {
+      padding: 32px 34px 36px;
+      display: grid;
+      gap: 24px;
+      background: var(--surface);
+    }
+
+    .field-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .field-group label {
+      font-weight: 700;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .field-group input,
+    .field-group select {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(140, 92, 50, 0.16);
+      background: white;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #6a4b3f;
+      font-size: 0.95rem;
+    }
+
+    .checkbox-group input {
+      width: auto;
+      border-radius: 6px;
+      border: 1px solid rgba(140, 92, 50, 0.16);
+    }
+
+    .actions {
+      display: grid;
+      gap: 14px;
+    }
+
+    .actions button {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 18px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .actions button:hover {
+      transform: translateY(-1px);
+      background: #8c1a2b;
+    }
+
+    .links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: #6a4b3f;
+      font-size: 0.95rem;
+    }
+
+    .links a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .tip-card {
+      padding: 20px 22px;
+      border-radius: 22px;
+      background: white;
+      border: 1px solid rgba(217, 123, 102, 0.16);
+      box-shadow: 0 16px 30px rgba(0,0,0,0.05);
+      color: #6b4f42;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 640px) {
+      .grid-two {
+        grid-template-columns: 1fr;
+      }
+
+      .header-panel,
+      .form-panel {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-shell">
+    <div class="header-panel">
+      <h1>Crear cuenta</h1>
+      <p>Regístrate en FastDoc para gestionar tus envíos de documentos y acceder a la información de rastreo desde cualquier lugar.</p>
+    </div>
+    <div class="form-panel">
+      <form>
+        <div class="grid-two">
+          <div class="field-group">
+            <label for="name">Nombre completo</label>
+            <input type="text" id="name" placeholder="Nombre y apellido" disabled>
+          </div>
+          <div class="field-group">
+            <label for="phone">Teléfono</label>
+            <input type="tel" id="phone" placeholder="300 123 4567" disabled>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="usuario@fastdoc.com" disabled>
+        </div>
+        <div class="grid-two">
+          <div class="field-group">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" placeholder="********" disabled>
+          </div>
+          <div class="field-group">
+            <label for="confirm-password">Confirmar contraseña</label>
+            <input type="password" id="confirm-password" placeholder="********" disabled>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="document-type">Tipo de documento</label>
+          <select id="document-type" disabled>
+            <option>Selecciona una opción</option>
+            <option>Documento personal</option>
+            <option>Contrato</option>
+            <option>Factura</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" disabled>
+          <label for="terms">Acepto los términos y condiciones de FastDoc</label>
+        </div>
+        <div class="actions">
+          <button type="button" disabled>Registrar cuenta</button>
+        </div>
+      </form>
+      <div class="links">
+        <a href="login.html">Ya tengo cuenta</a>
+        <a href="index.html">Volver a inicio</a>
+      </div>
+      <div class="tip-card">
+        <strong>Consejo:</strong> crea una cuenta para almacenar tus envíos y recibir actualizaciones de seguimiento desde la plataforma de FastDoc.</div>
+    </div>
+  </div>
+</body>
+</html>
