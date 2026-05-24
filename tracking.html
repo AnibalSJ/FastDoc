@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastDoc - Rastreo de Documento</title>
+  <style>
+    :root {
+      --primary: #A60321;
+      --light: #F2E9D8;
+      --accent: #D97B66;
+      --highlight: #D9A577;
+      --dark: #8C5C32;
+      --bg: #fffef9;
+      --surface: #fff5ea;
+      --text: #2f1d15;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(180deg, #fffdf8 0%, #f5e8d9 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px 48px;
+    }
+
+    header {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 32px;
+      padding: 28px 32px;
+      border-radius: 28px;
+      background: radial-gradient(circle at top left, rgba(214, 123, 102, 0.22), transparent 35%),
+                  radial-gradient(circle at bottom right, rgba(166, 3, 33, 0.18), transparent 35%),
+                  var(--surface);
+      border: 1px solid rgba(166, 3, 33, 0.15);
+    }
+
+    .brand {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .brand h1 {
+      font-size: clamp(2rem, 2.6vw, 3rem);
+      letter-spacing: -0.04em;
+      color: var(--primary);
+    }
+
+    .brand small {
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .intro {
+      max-width: 720px;
+      font-size: 1rem;
+      color: #4d3426;
+    }
+
+    .hero-info {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .hero-card {
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.06);
+      border: 1px solid rgba(166, 3, 33, 0.1);
+    }
+
+    .hero-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: var(--dark);
+    }
+
+    .hero-card span {
+      font-size: 1.4rem;
+      color: var(--primary);
+    }
+
+    .tracker {
+      display: grid;
+      gap: 24px;
+    }
+
+    .search-panel {
+      padding: 26px 28px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #fff9f2, #f2e1d0);
+      border: 1px solid rgba(140,92,50,0.16);
+      display: grid;
+      gap: 16px;
+    }
+
+    .search-panel label {
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-row input {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(166, 3, 33, 0.15);
+      background: white;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .search-row button {
+      padding: 16px 24px;
+      border-radius: 16px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .search-row button:hover {
+      transform: translateY(-1px);
+    }
+
+    .status-panel {
+      display: grid;
+      gap: 20px;
+    }
+
+    .status-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-title h2 {
+      font-size: 1.25rem;
+      color: var(--dark);
+    }
+
+    .status-title span {
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(217,123,102,0.16);
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .progress-wrapper {
+      padding: 28px 30px;
+      background: white;
+      border-radius: 28px;
+      border: 1px solid rgba(166, 3, 33, 0.12);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.05);
+    }
+
+    .stage-list {
+      display: grid;
+      gap: 22px;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .stage-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+    }
+
+    .stage-content h3 {
+      margin-bottom: 6px;
+      font-size: 1rem;
+      color: var(--dark);
+    }
+
+    .stage-content p {
+      color: #6b4f42;
+      font-size: 0.95rem;
+    }
+
+    .tracking-card {
+      display: grid;
+      gap: 18px;
+      padding: 28px 30px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, #faf3e9 0%, #f4e1d1 100%);
+      border: 1px solid rgba(217,123,102,0.2);
+    }
+
+    .tracking-card h2 {
+      font-size: 1.2rem;
+      color: var(--dark);
+    }
+
+    .tracking-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .tracking-item {
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: white;
+      border: 1px solid rgba(140, 92, 50, 0.12);
+    }
+
+    .tracking-item label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      color: #7b5a48;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .tracking-item div {
+      font-size: 1.05rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .notes {
+      margin-top: 8px;
+      font-size: 0.96rem;
+      color: #6b4f42;
+    }
+
+    footer {
+      margin-top: 32px;
+      padding: 18px 24px;
+      border-radius: 24px;
+      background: rgba(166, 3, 33, 0.06);
+      color: #5b3e34;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    footer p {
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 780px) {
+      .hero-info {
+        grid-template-columns: 1fr;
+      }
+
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div>
+          <h1>FastDoc</h1>
+          <small>Rastreo de envíos de documentos</small>
+        </div>
+        <span>Entrega nacional en 24-48 horas</span>
+      </div>
+      <p class="intro">Verifica el estado de tu envío y conoce el recorrido actual de tu documento. Esta vista presenta una experiencia visual clara y moderna inspirada en servicios logísticos profesionales.</p>
+      <div class="hero-info">
+        <div class="hero-card">
+          <strong>Estado actual</strong>
+          <span>En tránsito</span>
+        </div>
+        <div class="hero-card">
+          <strong>Destino</strong>
+          <span>Bogotá</span>
+        </div>
+        <div class="hero-card">
+          <strong>Última actualización</strong>
+          <span>Hace 2 horas</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="tracker">
+      <div class="search-panel">
+        <div class="status-title">
+          <h2>Búsqueda de rastreo</h2>
+          <span>Código de seguimiento</span>
+        </div>
+        <div class="search-row">
+          <input type="text" placeholder="Ingrese el número de guía o código de documento" disabled>
+          <button disabled>Buscar</button>
+        </div>
+      </div>
+
+      <div class="progress-wrapper">
+        <div class="status-title">
+          <h2>Progreso del envío</h2>
+          <span>80% completado</span>
+        </div>
+        <div class="stage-list">
+          <div class="stage">
+            <div class="stage-dot">1</div>
+            <div class="stage-content">
+              <h3>Recibido</h3>
+              <p>El documento fue recibido en la central de origen.</p>
+            </div>
+          </div>
+          <div class="stage">
+            <div class="stage-dot">2</div>
+            <div class="stage-content">
+              <h3>Procesando</h3>
+              <p>Se está preparando para el traslado hacia la ciudad de destino.</p>
+            </div>
+          </div>
+          <div class="stage">
+            <div class="stage-dot">3</div>
+            <div class="stage-content">
+              <h3>En tránsito</h3>
+              <p>El documento se encuentra en ruta hacia el punto de entrega.</p>
+            </div>
+          </div>
+          <div class="stage">
+            <div class="stage-dot" style="background: rgba(140,92,50,0.15); color: var(--dark);">4</div>
+            <div class="stage-content">
+              <h3>Entregado</h3>
+              <p>El documento llegará en las próximas horas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tracking-card">
+        <h2>Detalles del envío</h2>
+        <div class="tracking-grid">
+          <div class="tracking-item">
+            <label>Remitente</label>
+            <div>Oficina Central FastDoc</div>
+          </div>
+          <div class="tracking-item">
+            <label>Destinatario</label>
+            <div>Juan Pérez</div>
+          </div>
+          <div class="tracking-item">
+            <label>Tipo de documento</label>
+            <div>Contrato</div>
+          </div>
+          <div class="tracking-item">
+            <label>Fecha de envío</label>
+            <div>21 mayo 2026</div>
+          </div>
+          <div class="tracking-item">
+            <label>Fecha estimada</label>
+            <div>23 mayo 2026</div>
+          </div>
+          <div class="tracking-item">
+            <label>Centro de atención</label>
+            <div>Terminal Centro</div>
+          </div>
+        </div>
+        <p class="notes">Este diseño es una maqueta visual de seguimiento de documentos y no está conectado a un sistema real de rastreo.</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>FastDoc - Envíos de documentos confiables a nivel nacional.</p>
+      <p>Entrega en 24 a 48 horas después de recibir el documento.</p>
+    </footer>
+  </div>
+</body>
+</html>
