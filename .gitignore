@@ -1,0 +1,53 @@
+# Dependencias y paquetes
+node_modules/
+package-lock.json
+yarn.lock
+.pnp
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDEs y editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+.netbeans/
+
+# Archivos de compilación y salida
+dist/
+build/
+*.min.js
+*.min.css
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Caché
+.cache/
+*.tmp
+
+# Archivos temporales
+*.bak
+*.tmp
+*.temp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
